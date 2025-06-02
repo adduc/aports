@@ -1,0 +1,36 @@
+maintainer="John Long <john@johnsdomain.com>"
+pkgname=py3-pkb-client
+pkgver=2.1.1
+pkgrel=1
+pkgdesc="Python client for the Porkbun API"
+url="https://github.com/infinityofspace/pkb_client"
+arch="noarch"
+license="MIT"
+depends="py3-requests py3-dnspython py3-responses"
+makedepends="py3-gpep517 py3-setuptools"
+checkdepends=""
+subpackages="$pkgname-pyc"
+source="$pkgname-$pkgver.tar.gz::https://github.com/infinityofspace/pkb_client/archive/refs/tags/v$pkgver.tar.gz"
+builddir="$srcdir/py3-pkb-client-$pkgver"
+
+
+build() {
+    cd pkb_client-$pkgver
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
+}
+
+check() {
+    return
+}
+
+package() {
+	python3 -m installer -d "$pkgdir" \
+		src/pkb_client-$pkgver/.dist/*.whl
+	rm -r "$pkgdir"/usr/lib/python*/site-packages/tests
+}
+
+sha512sums="
+b872ca7db5d06f1e9ffa105a3e6aa28a27152ab90e48a6d95d1557c3386967778eadb9e1ee53385e957e0c497899cb1d30ba10b510bdf3cf07894110613ba1d7  py3-pkb-client-2.1.1.tar.gz
+"

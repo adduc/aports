@@ -1,0 +1,7 @@
+services:
+  build:
+    image: local/package-builder-alpine:3.22-amd64
+    network_mode: host
+    working_dir: /root/src
+    volumes:
+    - ./:/root

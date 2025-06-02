@@ -1,0 +1,32 @@
+maintainer="John Long <john@johnsdomain.com>"
+pkgname=certbot-dns-porkbun
+pkgver=0.10.1
+pkgrel=1
+pkgdesc="Certbot DNS plugin for Porkbun"
+url="https://github.com/infinityofspace/certbot_dns_porkbun"
+arch="noarch"
+license="MIT"
+depends="py3-pkb-client py3-tldextract certbot"
+makedepends="py3-gpep517 py3-setuptools"
+checkdepends=""
+subpackages="$pkgname-pyc"
+source="$pkgname-$pkgver.tar.gz::https://github.com/infinityofspace/certbot_dns_porkbun/archive/refs/tags/v$pkgver.tar.gz"
+builddir="$srcdir/certbot_dns_porkbun-$pkgver"
+
+
+build() {
+	gpep517 build-wheel \
+		--wheel-dir .dist \
+		--output-fd 3 3>&1 >&2
+}
+
+package() {
+	python3 -m installer -d "$pkgdir" \
+		.dist/*.whl
+
+	rm -r "$pkgdir"/usr/lib/python*/site-packages/tests
+}
+
+sha512sums="
+5c0221aadafe64e186db6f41581c6d39162f2ffc1d0ccc44aaaf78218466bed4da929d92c94bf33d95acdeac7c109f451c9667680d01dc06730f906495bbe6d6  certbot-dns-porkbun-0.10.1.tar.gz
+"
