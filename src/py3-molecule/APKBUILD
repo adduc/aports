@@ -1,0 +1,44 @@
+maintainer="John Long <john@johnsdomain.com>"
+arch=noarch
+depends="ansible-core py3-click py3-wcmatch"
+license=MIT
+pkgname=py3-molecule
+pkgdesc="Ansible testing framework for the development and testing of Ansible roles and playbooks"
+pkgver=25.5.0
+pkgrel=1
+url="https://github.com/ansible/molecule"
+
+
+
+
+
+
+
+
+
+# url="https://github.com/infinityofspace/pkb_client"
+# depends="py3-requests py3-dnspython py3-responses"
+
+makedepends="py3-build py3-setuptools py3-installer"
+checkdepends=""
+subpackages="$pkgname-pyc"
+source="$pkgname-$pkgver.tar.gz::https://github.com/ansible/molecule/archive/refs/tags/v$pkgver.tar.gz"
+builddir="$srcdir/py3-molecule-$pkgver"
+
+
+build() {
+    env SETUPTOOLS_SCM_PRETEND_VERSION="$pkgver" python -m build --outdir .dist "molecule-$pkgver"
+}
+
+check() {
+    return
+}
+
+package() {
+	python3 -m installer -d "$pkgdir" \
+		src/.dist/*.whl
+}
+
+sha512sums="
+c2683d83a18971872ab66ecb609f6169a7cb2208540cabd31ea2d69373f9afbe8e2b342f5f82ec4827579d4ee17e68106dd03acd63da94c78a389706c7097743  py3-molecule-25.5.0.tar.gz
+"
